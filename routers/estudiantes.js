@@ -21,7 +21,7 @@ router
     .post("/", uploader.single("avatar"), (req, res) =>{
 
         const { body } = req
-        const estudiante = {
+        const estudiante = { 
             ...body,
             avatar: `/static/imgs/${req.file.originalname}`,
         } 
