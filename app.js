@@ -1,21 +1,20 @@
-import express from 'express'
+import express from "express";
 
-import indexRouter from "./routers/index.js"
-import viewsRouter from "./routers/views/index.js"
+import apiRouter from "./routers/api/index.js";
+import viewsRouter from "./routers/views/index.js";
+import { init } from "./db/mongodb.js";
 
+init();
+const app = express();
 
-const app = express()
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/static", express.static("./public"));
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use("/static", express.static("./public"))
+app.set("view engine", "hbs");
+app.set("views", "./views");
 
-app.set("view engine", "hbs")
-app.set("views", "./views")
+app.use("/", viewsRouter);
+app.use("/api", apiRouter);
 
-app.use("/", viewsRouter)
-app.use("/api", indexRouter)
-
-
-
-export default app
+export default app;
